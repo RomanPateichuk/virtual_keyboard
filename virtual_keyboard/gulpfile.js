@@ -21,7 +21,7 @@ function browsersync() {
 }
 
 function styles() {
-  return src("./*.scss")
+  return src("./styles/*.scss")
     .pipe(
       sass().on(
         "error",
@@ -37,7 +37,7 @@ function styles() {
         level: { 1: { specialComments: 0 } },
       })
     )
-    .pipe(dest("./"))
+    .pipe(dest("./styles"))
     .pipe(notify("SASS - хорошая работа!"))
     .pipe(browserSync.stream());
 }
@@ -52,13 +52,13 @@ function scripts() {
     .pipe(browserSync.stream()); // Триггерим Browsersync для обновления страницы
 }
 function startwatch() {
-  watch("./*.scss", styles);
+  watch(".styles/*.scss", styles);
   watch("./*.js", scripts);
   watch("./*.html").on("change", browserSync.reload);
 }
 
 function buildcopy() {
-  return src(["./*.css", "./*.html", "./min.js"], { base: "./" }).pipe(
+  return src(["./styles/*.css", "./*.html", "./min.js"], { base: "./" }).pipe(
     dest("dist")
   );
 }
