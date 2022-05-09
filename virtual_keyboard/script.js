@@ -1,26 +1,28 @@
 const wrapper = document.querySelectorAll(".keyboard_wrapper> div");
 let i = 1;
 let cursor_position = null;
-
-let servises = [
-  "Tab",
-  "ShiftLeft",
-  "CapsLock",
-  "ControlLeft",
-  "MetaLeft",
-  "AltLeft",
-  "Space",
-  "AltRight",
-  "ArrowUp",
-  "ArrowDown",
-  "ArrowLeft",
-  "ArrowRight",
-  "ControlRight",
-  "ShiftRight",
-  "Enter",
-  "Delete",
-  "Backspace",
-];
+alert(
+  "Привет. Нужно кое-что допилить. Пожалуйста не спиши проверять. Крайний срок вроде как до четверга включительно. Вот мой телеграмм для связи https://t.me/Roman914"
+);
+// let servises = [
+//   "Tab",
+//   "ShiftLeft",
+//   "CapsLock",
+//   "ControlLeft",
+//   "MetaLeft",
+//   "AltLeft",
+//   "Space",
+//   "AltRight",
+//   "ArrowUp",
+//   "ArrowDown",
+//   "ArrowLeft",
+//   "ArrowRight",
+//   "ControlRight",
+//   "ShiftRight",
+//   "Enter",
+//   "Delete",
+//   "Backspace",
+// ];
 
 document.addEventListener("DOMContentLoaded", () => {
   textarea.focus();
@@ -70,6 +72,22 @@ wrapper.forEach((element) => {
         );
       textarea.selectionStart = cursor_position;
     }
+
+    if (elem.classList.contains("CapsLock")) {
+      const letters = document.querySelectorAll('[class*="Key"]');
+      if (elem.getAttribute("data-val") === "true") {
+        for (let letter of letters) {
+          letter.innerHTML = letter.innerHTML.toLowerCase();
+        }
+
+        elem.removeAttribute("data-val");
+      } else {
+        for (let letter of letters) {
+          letter.innerHTML = letter.innerHTML.toUpperCase();
+        }
+        elem.dataset.val = "true";
+      }
+    }
   });
 });
 
@@ -105,6 +123,22 @@ textarea.addEventListener("keydown", (event) => {
             textarea.innerHTML.length
           );
         textarea.selectionStart = cursor_position;
+      }
+
+      if (elem.classList.contains("CapsLock")) {
+        const letters = document.querySelectorAll('[class*="Key"]');
+        if (elem.getAttribute("data-val") === "true") {
+          for (let letter of letters) {
+            letter.innerHTML = letter.innerHTML.toLowerCase();
+          }
+
+          elem.removeAttribute("data-val");
+        } else {
+          for (let letter of letters) {
+            letter.innerHTML = letter.innerHTML.toUpperCase();
+          }
+          elem.dataset.val = "true";
+        }
       }
     }
   });
