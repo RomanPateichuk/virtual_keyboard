@@ -1,6 +1,6 @@
 const wrapper = document.querySelectorAll(".keyboard_wrapper> div");
 let i = 1;
-let cursor_position = 0;
+let cursor_position = null;
 
 document.addEventListener("DOMContentLoaded", () => {
   textarea.focus();
@@ -11,16 +11,19 @@ textarea.addEventListener("blur", () => {
 });
 
 textarea.addEventListener("click", (event) => {
-  cursor_position = getCaretPos("textarea");
+  cursor_position = getCaretPos();
 });
 
 wrapper.forEach((element) => {
   element.addEventListener("click", (event) => {
     let elem = event.target;
-    cursor_position = getCaretPos("textarea");
+    cursor_position = getCaretPos();
     if (!elem.classList.contains("services_btn")) {
-      textarea.innerHTML += event.target.innerHTML;
-      textarea.selectionStart = i++;
+      textarea.innerHTML =
+        textarea.innerHTML.slice(0, cursor_position) +
+        event.target.innerHTML +
+        textarea.innerHTML.slice(cursor_position, textarea.innerHTML.length);
+      textarea.selectionStart = ++cursor_position;
     }
     if (elem.innerHTML === "Backspace") {
       Backspace();
@@ -29,24 +32,14 @@ wrapper.forEach((element) => {
 });
 
 function Backspace() {
-  console.log("cursor_position backspace: ", cursor_position);
   textarea.innerHTML =
     textarea.innerHTML.slice(0, cursor_position - 1) +
     textarea.innerHTML.slice(cursor_position, textarea.innerHTML.length);
   textarea.selectionStart = --cursor_position;
 }
 
-function getCaretPos(objName) {
-  var obj = document.getElementById(objName);
-
-  obj.focus();
-  if (document.selection) {
-    var sel = document.selection.createRange();
-    var clone = sel.duplicate();
-    sel.collapse(true);
-    clone.moveToElementText(obj);
-    clone.setEndPoint("EndToEnd", sel);
-    return clone.text.length;
-  } else if (obj.selectionStart !== false) return obj.selectionStart;
+function getCaretPos() {
+  textarea.focus();
+  if (textarea.selectionStart !== false) return textarea.selectionStart;
   else return 0;
 }
