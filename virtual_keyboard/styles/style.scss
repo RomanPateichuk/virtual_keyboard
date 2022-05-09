@@ -37,7 +37,8 @@
     margin-bottom: 1px;
 
     &:nth-child(55) {
-      width: 106px;
+      @include servises_btn;
+      width: 84px;
     }
 
     &:hover {
@@ -48,6 +49,10 @@
 
     &:active {
       background-color: green;
+    }
+
+    &.active {
+      background-color: red;
     }
   }
 
@@ -70,9 +75,9 @@
     @include servises_btn;
     width: 84px;
   }
-  .Shift {
+  .ShiftLeft {
     @include servises_btn;
-    width: 84px;
+    width: 106px;
   }
 
   .Space {
