@@ -37,7 +37,7 @@ function styles() {
         level: { 1: { specialComments: 0 } },
       })
     )
-    .pipe(dest("./styles"))
+    .pipe(dest("./styles/"))
     .pipe(notify("SASS - хорошая работа!"))
     .pipe(browserSync.stream());
 }
@@ -52,7 +52,7 @@ function scripts() {
     .pipe(browserSync.stream()); // Триггерим Browsersync для обновления страницы
 }
 function startwatch() {
-  watch(".styles/*.scss", styles);
+  watch("./styles/*.scss", styles);
   watch("./*.js", scripts);
   watch("./*.html").on("change", browserSync.reload);
 }
