@@ -1,4 +1,78 @@
-import { servises_en, servises_ru, letters_ru, letters_en } from "/data.js";
+import {
+  servises_en,
+  servises_ru,
+  letters_ru,
+  letters_en,
+  init_en,
+} from "/data.js";
+
+function init() {
+  let textarea_wrapper = document.createElement("textarea");
+  textarea_wrapper.id = "textarea";
+  textarea_wrapper.classList.add("input_wrapper");
+  textarea_wrapper.cols = "50";
+  textarea_wrapper.rows = "5";
+  document.body.appendChild(textarea_wrapper);
+
+  let fragment = document.createDocumentFragment();
+  for (let item of init_en) {
+    let element = document.createElement("div");
+    element.innerHTML = item["Key"];
+    element.classList.add(item["Code"]);
+    if (item.hasOwnProperty("servises_btn")) {
+      element.classList.add("services_btn");
+    }
+
+    if (item.hasOwnProperty("ru")) {
+      element.classList.add("ru");
+    }
+
+    if (item.hasOwnProperty("id")) {
+      element.id = item["Code"];
+    }
+
+    fragment.appendChild(element);
+  }
+
+  let wrapper_keyboard = document.createElement("div");
+  wrapper_keyboard.classList.add("keyboard_wrapper");
+  wrapper_keyboard.appendChild(fragment);
+
+  document.body.appendChild(wrapper_keyboard);
+
+  let info_wrapper = document.createElement("div");
+  info_wrapper.classList.add("info_wrapper");
+
+  let info_fragment = document.createDocumentFragment();
+
+  let p1 = document.createElement("p");
+  p1.classList.add("lang");
+  p1.innerHTML = "Переключение языка - левый Ctrl";
+
+  let p2 = document.createElement("p");
+  p2.classList.add("init-os");
+  p2.id = "init_os";
+
+  let p3 = document.createElement("p");
+  p3.classList.add("pull");
+  p3.innerHTML =
+    "Внимание!!! Не правильно сделал сабмит таска, поэтому Pull Request выкладываю здесь: ";
+
+  let link = document.createElement("a");
+  link.href =
+    "https://github.com/rolling-scopes-school/romanpateichuk-JSFE2022Q1/pull/1#issue-1232602221";
+
+  link.appendChild(document.createTextNode("Pull Request"));
+
+  p3.appendChild(link);
+
+  info_fragment.appendChild(p1);
+  info_fragment.appendChild(p2);
+  info_fragment.appendChild(p3);
+  info_wrapper.appendChild(info_fragment);
+  document.body.appendChild(info_wrapper);
+}
+init();
 
 const wrapper = document.querySelectorAll(".keyboard_wrapper> div");
 let i = 1;
@@ -21,19 +95,24 @@ const ru_spec = document.querySelectorAll(
   '[class*="Digit"], [class*="Minus"], [class*="Equal"], [class*="Backslash"], [class*="Slash"]'
 );
 let val = false;
-function ru_lang() {
+function lang() {
   if (val) {
     ru.forEach((element, index) => {
       element.innerHTML = letters_en[index];
     });
-
+    localStorage.setItem("lang", "en");
     val = false;
   } else {
     ru.forEach((element, index) => {
       element.innerHTML = letters_ru[index];
     });
     val = true;
+    localStorage.setItem("lang", "ru");
   }
+}
+
+if (localStorage.lang === "ru") {
+  lang();
 }
 
 function shiftDown() {
@@ -72,7 +151,7 @@ ShiftLeft.addEventListener("mousedown", shiftDown);
 ShiftLeft.addEventListener("mouseup", shiftUp);
 ShiftRight.addEventListener("mousedown", shiftDown);
 ShiftRight.addEventListener("mouseup", shiftUp);
-CtrlLeft.addEventListener("click", ru_lang);
+ControlLeft.addEventListener("click", lang);
 
 document.addEventListener("DOMContentLoaded", () => {
   textarea.focus();
@@ -124,19 +203,7 @@ wrapper.forEach((element) => {
     }
 
     if (elem.classList.contains("CapsLock")) {
-      const letters = document.querySelectorAll('[class*="ru"]');
-      if (elem.getAttribute("data-val") === "true") {
-        for (let letter of letters) {
-          letter.innerHTML = letter.innerHTML.toLowerCase();
-        }
-
-        elem.removeAttribute("data-val");
-      } else {
-        for (let letter of letters) {
-          letter.innerHTML = letter.innerHTML.toUpperCase();
-        }
-        elem.dataset.val = "true";
-      }
+      CapsLock(elem);
     }
   });
 });
@@ -176,19 +243,7 @@ textarea.addEventListener("keydown", (event) => {
       }
 
       if (elem.classList.contains("CapsLock")) {
-        const letters = document.querySelectorAll('[class*="ru"]');
-        if (elem.getAttribute("data-val") === "true") {
-          for (let letter of letters) {
-            letter.innerHTML = letter.innerHTML.toLowerCase();
-          }
-
-          elem.removeAttribute("data-val");
-        } else {
-          for (let letter of letters) {
-            letter.innerHTML = letter.innerHTML.toUpperCase();
-          }
-          elem.dataset.val = "true";
-        }
+        CapsLock(elem);
       }
 
       if (
@@ -199,7 +254,7 @@ textarea.addEventListener("keydown", (event) => {
       }
 
       if (elem.classList.contains("ControlLeft")) {
-        ru_lang();
+        lang();
       }
     }
   });
@@ -234,4 +289,20 @@ function printChar(char) {
     char +
     textarea.innerHTML.slice(cursor_position, textarea.innerHTML.length);
   textarea.selectionStart = ++cursor_position;
+}
+
+function CapsLock(elem) {
+  const letters = document.querySelectorAll('[class*="ru"]');
+  if (elem.getAttribute("data-val") === "true") {
+    for (let letter of letters) {
+      letter.innerHTML = letter.innerHTML.toLowerCase();
+    }
+
+    elem.removeAttribute("data-val");
+  } else {
+    for (let letter of letters) {
+      letter.innerHTML = letter.innerHTML.toUpperCase();
+    }
+    elem.dataset.val = "true";
+  }
 }

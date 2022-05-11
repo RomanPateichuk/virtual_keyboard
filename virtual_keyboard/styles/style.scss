@@ -3,7 +3,6 @@
   background-color: #222222;
 }
 
-
 .input_wrapper {
   display: block;
   width: 700px;
@@ -16,6 +15,10 @@
 }
 
 .keyboard_wrapper {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  flex-wrap: wrap;
   width: 704px;
   margin: 0 auto;
   padding: 5px 10px;
@@ -24,15 +27,15 @@
   border-radius: 5px;
   user-select: none;
 
-  .button {
-    display: inline-flex;
+  div {
+    display: flex;
     justify-content: center;
     align-items: center;
     width: 40px;
     height: 40px;
     color: #ffffff;
     background: #444444;
-    margin-bottom: 1px;
+    margin: 1px;
 
     &:nth-child(55) {
       @include servises_btn;
@@ -82,34 +85,30 @@
     width: 326px;
   }
 
-  .Del {
+  .Delete {
     @include servises_btn;
     width: 47px;
   }
 }
 
-
-.info_wrapper{
+.info_wrapper {
   margin: 0 auto;
-  .lang{
+  .lang {
     text-align: center;
     font-size: 1.5rem;
-    padding: 1%;
-  }
-  
-  
-  .init-os{
-    text-align: center;
-    font-size: 1.5rem;
-    padding: 1%;
-  }
-  
-  .pull{
-    text-align: center;
-    font-size: 1.5rem;
-    color: red; 
     padding: 1%;
   }
 
+  .init-os {
+    text-align: center;
+    font-size: 1.5rem;
+    padding: 1%;
+  }
 
+  .pull {
+    text-align: center;
+    font-size: 1.5rem;
+    color: red;
+    padding: 1%;
+  }
 }
