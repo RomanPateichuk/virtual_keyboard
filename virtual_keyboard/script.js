@@ -2,8 +2,6 @@ const wrapper = document.querySelectorAll(".keyboard_wrapper> div");
 let i = 1;
 let cursor_position = null;
 
-console.log(navigator.appVersion);
-
 function getOS() {
   if (navigator.appVersion.indexOf("Windows") >= 0) return "Windows";
   if (navigator.appVersion.indexOf("Linux") >= 0) return "Linux";
@@ -13,30 +11,93 @@ function getOS() {
 
 init_os.innerHTML = `Клавиатура создана в операционной системе: ${getOS()}`;
 
-alert(
-  "Привет. Нужно кое-что допилить. Пожалуйста не спиши проверять. Крайний срок вроде как до четверга включительно. Вот мой телеграмм для связи https://t.me/Roman914"
-);
-// let servises = [
-//   "Tab",
-//   "ShiftLeft",
-//   "CapsLock",
-//   "ControlLeft",
-//   "MetaLeft",
-//   "AltLeft",
-//   "Space",
-//   "AltRight",
-//   "ArrowUp",
-//   "ArrowDown",
-//   "ArrowLeft",
-//   "ArrowRight",
-//   "ControlRight",
-//   "ShiftRight",
-//   "Enter",
-//   "Delete",
-//   "Backspace",
-// ];
+const servises_en = {
+  shiftDown: [
+    "~",
+    "!",
+    "@",
+    "#",
+    "$",
+    "%",
+    "^",
+    "&",
+    "*",
+    "(",
+    ")",
+    "_",
+    "+",
+    "{",
+    "}",
+    "|",
+    ":",
+    '"',
+    "<",
+    ">",
+    "?",
+  ],
 
-let letters_ru = [
+  shiftUp: [
+    "'",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "0",
+    "-",
+    "=",
+    "[",
+    "]",
+    "\\",
+    ";",
+    "'",
+    ",",
+    ".",
+    "/",
+  ],
+};
+
+const servises_ru = {
+  shiftDown: [
+    "!",
+    '"',
+    "№",
+    ";",
+    "%",
+    ":",
+    "?",
+    "*",
+    "(",
+    ")",
+    "_",
+    "+",
+    "/",
+    ",",
+  ],
+
+  shiftUp: [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "0",
+    "-",
+    "=",
+    "\\",
+    ".",
+  ],
+};
+
+const letters_ru = [
   "ё",
   "й",
   "ц",
@@ -108,10 +169,15 @@ let letters_en = [
   ".",
   "/",
 ];
-const ru = document.querySelectorAll('[class*="ru"]');
-console.log(ru);
-let val = false;
 
+const ru = document.querySelectorAll('[class*="ru"]');
+const en_spec = document.querySelectorAll(
+  '[class*="Backquote"], [class*="Digit"], [class*="Minus"], [class*="Equal"], [class*="BracketLeft"], [class*="BracketRight"], [class*="Backslash"], [class*="Semicolon"], [class*="Quote"], [class*="Comma"], [class*="Period"], [class*="Slash"]'
+);
+const ru_spec = document.querySelectorAll(
+  '[class*="Digit"], [class*="Minus"], [class*="Equal"], [class*="Backslash"], [class*="Slash"]'
+);
+let val = false;
 function ru_lang() {
   if (val) {
     ru.forEach((element, index) => {
@@ -127,14 +193,43 @@ function ru_lang() {
   }
 }
 
+function shiftDown() {
+  if (!val) {
+    en_spec.forEach((element, index) => {
+      element.innerHTML = servises_en.shiftDown[index];
+    });
+  } else {
+    ru_spec.forEach((element, index) => {
+      element.innerHTML = servises_ru.shiftDown[index];
+    });
+  }
+  const letters = document.querySelectorAll('[class*="ru"]');
+  for (let letter of letters) {
+    letter.innerHTML = letter.innerHTML.toUpperCase();
+  }
+}
+
+function shiftUp() {
+  if (!val) {
+    en_spec.forEach((element, index) => {
+      element.innerHTML = servises_en.shiftUp[index];
+    });
+  } else {
+    ru_spec.forEach((element, index) => {
+      element.innerHTML = servises_ru.shiftUp[index];
+    });
+  }
+  const letters = document.querySelectorAll('[class*="ru"]');
+  for (let letter of letters) {
+    letter.innerHTML = letter.innerHTML.toLowerCase();
+  }
+}
+
+ShiftLeft.addEventListener("mousedown", shiftDown);
+ShiftLeft.addEventListener("mouseup", shiftUp);
+ShiftRight.addEventListener("mousedown", shiftDown);
+ShiftRight.addEventListener("mouseup", shiftUp);
 CtrlLeft.addEventListener("click", ru_lang);
-
-/*
-1) русские клавиши класс "ru", querySelector взять +
-2) Пройтись через цикл и менять сочетанием клавиш +
-3) Shift - вызывать функцию Caps и присвоить клавиши из массива. servises_ru, services_en
-
-*/
 
 document.addEventListener("DOMContentLoaded", () => {
   textarea.focus();
@@ -186,7 +281,7 @@ wrapper.forEach((element) => {
     }
 
     if (elem.classList.contains("CapsLock")) {
-      const letters = document.querySelectorAll('[class*="Key"]');
+      const letters = document.querySelectorAll('[class*="ru"]');
       if (elem.getAttribute("data-val") === "true") {
         for (let letter of letters) {
           letter.innerHTML = letter.innerHTML.toLowerCase();
@@ -238,7 +333,7 @@ textarea.addEventListener("keydown", (event) => {
       }
 
       if (elem.classList.contains("CapsLock")) {
-        const letters = document.querySelectorAll('[class*="Key"]');
+        const letters = document.querySelectorAll('[class*="ru"]');
         if (elem.getAttribute("data-val") === "true") {
           for (let letter of letters) {
             letter.innerHTML = letter.innerHTML.toLowerCase();
@@ -253,6 +348,13 @@ textarea.addEventListener("keydown", (event) => {
         }
       }
 
+      if (
+        elem.classList.contains("ShiftRight") ||
+        elem.classList.contains("ShiftLeft")
+      ) {
+        shiftDown();
+      }
+
       if (elem.classList.contains("ControlLeft")) {
         ru_lang();
       }
@@ -264,6 +366,10 @@ textarea.addEventListener("keyup", (event) => {
   wrapper.forEach((element) => {
     element.classList.remove("active");
   });
+
+  if (event.code === "ShiftLeft" || event.code === "ShiftRight") {
+    shiftUp();
+  }
 });
 
 function Backspace() {
