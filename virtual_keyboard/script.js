@@ -4,7 +4,7 @@ import {
   letters_ru,
   letters_en,
   init_en,
-} from "/data.js";
+} from "./data.js";
 
 function init() {
   let textarea_wrapper = document.createElement("textarea");
