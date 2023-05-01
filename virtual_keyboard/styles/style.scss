@@ -76,6 +76,7 @@
     @include servises_btn;
     width: 84px;
   }
+
   .ShiftLeft {
     @include servises_btn;
     width: 106px;
@@ -93,6 +94,7 @@
 
 .info_wrapper {
   margin: 0 auto;
+
   .lang {
     text-align: center;
     font-size: 1.5rem;
@@ -102,13 +104,6 @@
   .init-os {
     text-align: center;
     font-size: 1.5rem;
-    padding: 1%;
-  }
-
-  .pull {
-    text-align: center;
-    font-size: 1.5rem;
-    color: red;
     padding: 1%;
   }
 }

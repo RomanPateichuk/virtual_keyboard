@@ -53,22 +53,8 @@ function init() {
   p2.classList.add("init-os");
   p2.id = "init_os";
 
-  let p3 = document.createElement("p");
-  p3.classList.add("pull");
-  p3.innerHTML =
-    "Внимание!!! Не правильно сделал сабмит таска, поэтому Pull Request выкладываю здесь: ";
-
-  let link = document.createElement("a");
-  link.href =
-    "https://github.com/rolling-scopes-school/romanpateichuk-JSFE2022Q1/pull/1#issue-1232602221";
-
-  link.appendChild(document.createTextNode("Pull Request"));
-
-  p3.appendChild(link);
-
   info_fragment.appendChild(p1);
   info_fragment.appendChild(p2);
-  info_fragment.appendChild(p3);
   info_wrapper.appendChild(info_fragment);
   document.body.appendChild(info_wrapper);
 }
