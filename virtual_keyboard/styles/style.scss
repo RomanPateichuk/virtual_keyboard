@@ -1,0 +1,109 @@
+/* mixins */
+@mixin servises_btn {
+  background-color: #222222;
+}
+
+.input_wrapper {
+  display: block;
+  width: 700px;
+  height: 200px;
+  margin: 2vw auto 2vw;
+  padding: 10px;
+  font-size: 18px;
+  color: #444444;
+  user-select: none;
+}
+
+.keyboard_wrapper {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 704px;
+  margin: 0 auto;
+  padding: 5px 10px;
+  background: #888888;
+  border: 3px solid #222222;
+  border-radius: 5px;
+  user-select: none;
+
+  div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    color: #ffffff;
+    background: #444444;
+    margin: 1px;
+
+    &:nth-child(55) {
+      @include servises_btn;
+      width: 84px;
+    }
+
+    &:hover {
+      background-color: #ffffff;
+      color: black;
+      transition: all 0.3s;
+    }
+
+    &:active {
+      background-color: green;
+    }
+
+    &.active {
+      background-color: red;
+    }
+  }
+
+  .Backspace {
+    @include servises_btn;
+    width: 106px;
+  }
+
+  .Tab {
+    @include servises_btn;
+    width: 55px;
+  }
+
+  .CapsLock {
+    @include servises_btn;
+    width: 106px;
+  }
+
+  .Enter {
+    @include servises_btn;
+    width: 84px;
+  }
+
+  .ShiftLeft {
+    @include servises_btn;
+    width: 106px;
+  }
+
+  .Space {
+    width: 326px;
+  }
+
+  .Delete {
+    @include servises_btn;
+    width: 47px;
+  }
+}
+
+.info_wrapper {
+  margin: 0 auto;
+
+  .lang {
+    text-align: center;
+    font-size: 1.5rem;
+    padding: 1%;
+  }
+
+  .init-os {
+    text-align: center;
+    font-size: 1.5rem;
+    padding: 1%;
+  }
+}
